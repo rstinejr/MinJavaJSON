@@ -16,7 +16,7 @@
 </target>
 
 <target name="run" depends="compile">
-    <java classpath="bin" classname="net.waltonstine.minjavajson.Main">
+    <java classpath="bin:jars/javax.json-1.0.4.jar" classname="net.waltonstine.minjavajson.Main">
         <arg value="employee.json"/>
     </java>
 </target>

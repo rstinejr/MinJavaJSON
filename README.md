@@ -6,3 +6,6 @@ This program demonstrates the operation of the javax.json pull-parser.
 
 It depends on javax.json-1.0.4.jar, which I downloaded from [JSON Processing](https://jsonp.java.net)
 
+## To build and execute
+
+```ant clean test```

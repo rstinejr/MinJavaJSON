@@ -1,8 +1,11 @@
 package net.waltonstine.json.test;
 
+import java.io.IOException;
+import java.io.PipedOutputStream;
+
 import net.waltonstine.json.piped.PipeWriter;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class TestPipeWriter
@@ -11,9 +14,17 @@ public class TestPipeWriter
 	public void execCtor()
 	{
 		{
-		    PipeWriter src = new PipeWriter();
+		    new PipeWriter();
 		}
 
-		assertEquals(1,1);
+		assertTrue(true);
+    }
+
+    @Test
+    public void readFile() throws IOException
+    {
+        PipeWriter wtr = new PipeWriter();
+        PipedOutputStream ostrm = wtr.openStream("sample.json");
+        assertTrue(true);
     }
 }

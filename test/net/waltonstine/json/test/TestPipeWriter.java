@@ -11,13 +11,13 @@ import org.junit.Test;
 public class TestPipeWriter
 {
     @Test
-	public void execCtor()
-	{
-		{
-		    new PipeWriter();
-		}
+    public void execCtor()
+    {
+        {
+            new PipeWriter();
+        }
 
-		assertTrue(true);
+        assertTrue(true);
     }
 
     @Test

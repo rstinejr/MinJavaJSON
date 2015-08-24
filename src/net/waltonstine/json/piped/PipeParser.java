@@ -13,8 +13,9 @@ import javax.json.stream.JsonParser.Event;
 public class PipeParser
 {
 
-    public static void main(String[] args) throws IOException 
+    public static void main(String[] args) throws IOException,InterruptedException
     {
+        System.out.printf("Start PipeParser test.\n");
         if (args.length != 1)
         {
             System.err.printf("Need exactly one argument, the name of a JSON source file.\n");
@@ -22,20 +23,20 @@ public class PipeParser
         }
         String fname = args[0];
         
-    net.waltonstine.json.piped.PipeWriter pw = new net.waltonstine.json.piped.PipeWriter();
-    PipedOutputStream src = pw.openStream(fname);
+        net.waltonstine.json.piped.PipeWriter pw = new net.waltonstine.json.piped.PipeWriter();
+        PipedOutputStream src = pw.openStream(fname);
 
-    PipedInputStream snk = new PipedInputStream(src);
+
+        PipedInputStream snk = new PipedInputStream(src);
+
+        System.out.printf("Hooked up output and input streams, source file is '%s'\n", fname);
+        System.out.flush();
+        Thread t = new Thread(pw);
+        t.start();
 
         JsonParser jp = Json.createParser(snk);
 
-        /**
-         * We can create JsonParser from JsonParserFactory also with below code
-         * JsonParserFactory factory = Json.createParserFactory(null);
-         * jp = factory.createParser(src);
-         */
-
-        System.out.printf("Piping file %s:\n", fname);
+        System.out.printf("Get items from parser...\n"); 
 
         while (jp.hasNext()) 
         {
@@ -81,6 +82,7 @@ public class PipeParser
         System.out.println("JSON parser done.");
         
         //close resources
+        t.join();
         snk.close();
         jp.close();
     }

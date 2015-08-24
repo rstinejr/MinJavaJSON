@@ -24,7 +24,7 @@ public class PipeWriter implements Runnable
 
     public void run()
     {
-        final int BUFF_LN = 80;
+        final int BUFF_LN = 11;
         byte[] readBuffer = new byte[BUFF_LN];
 
         try
@@ -36,11 +36,24 @@ public class PipeWriter implements Runnable
                 {
                     System.out.println("EOF on json file.");
                     pstrm.flush();                    
+                    pstrm.close();
                     fstrm.close();
                     break;
                 }
 
                 pstrm.write(readBuffer, 0, cnt); 
+                try
+                {
+                    // This sleep and the crazy buffer length of 11
+                    // are used to demonstrate that the JSON parser is in
+                    // fact a streaming parser, and does not need to wait
+                    // for the entire file to be loaded into memory.
+                    Thread.sleep(500);
+                }
+                catch (InterruptedException ex)
+                {
+                   ; // ignore
+                }
             }
         }
         catch (IOException ioex)

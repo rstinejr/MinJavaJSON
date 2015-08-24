@@ -35,13 +35,19 @@
     <delete dir="tstbin"/>
 </target>
 
+<target name="run-piped" depends="compile">
+    <java classpath="bin:jars/javax.json-1.0.4.jar" classname="net.waltonstine.json.piped.PipeParser">
+        <arg value="sample.json"/>
+    </java>
+</target>
+
 <target name="run-min" depends="compile">
     <java classpath="bin:jars/javax.json-1.0.4.jar" classname="net.waltonstine.json.minparser.Main">
         <arg value="sample.json"/>
     </java>
 </target>
 
-<target name="run" depends="run-min">
+<target name="run" depends="run-min,run-piped">
   <echo message="done"/>
 </target>
 

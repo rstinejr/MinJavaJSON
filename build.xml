@@ -19,19 +19,30 @@
 		 includeantruntime="false" debug="true"/>
 </target>
 
+<target name="run-TestPipeWriter" depends="compile-tests">
+    <java classpath="tstbin:bin:tstJars/junit-4.12.jar:tstJars/hamcrest-core-1.3.jar"
+          classname="org.junit.runner.JUnitCore">
+        <arg value="net.waltonstine.json.test.TestPipeWriter"/>
+    </java>
+</target>
+
+<target name="run-tests" depends="run-TestPipeWriter">
+    <echo message="tests done"/>
+</target>
+
 <target name="clean">
     <delete dir="bin"/>
     <delete dir="tstbin"/>
-</target>
-
-<target name="run" depends="run-min">
-  <echo message="done"/>
 </target>
 
 <target name="run-min" depends="compile">
     <java classpath="bin:jars/javax.json-1.0.4.jar" classname="net.waltonstine.json.minparser.Main">
         <arg value="sample.json"/>
     </java>
+</target>
+
+<target name="run" depends="run-min">
+  <echo message="done"/>
 </target>
 
 </project>

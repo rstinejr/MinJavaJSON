@@ -1,12 +1,14 @@
 package net.waltonstine.json.piped;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 
 import javax.json.Json;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
+
 
 public class PipeParser
 {
@@ -20,17 +22,20 @@ public class PipeParser
 		}
 		String fname = args[0];
 		
-		InputStream fis = new FileInputStream(fname);
+    net.waltonstine.json.piped.PipeWriter pw = new net.waltonstine.json.piped.PipeWriter();
+    PipedOutputStream src = pw.openStream(fname);
 
-		JsonParser jp = Json.createParser(fis);
+    PipedInputStream snk = new PipedInputStream(src);
+
+		JsonParser jp = Json.createParser(snk);
 
 		/**
 		 * We can create JsonParser from JsonParserFactory also with below code
 		 * JsonParserFactory factory = Json.createParserFactory(null);
-		 * jp = factory.createParser(fis);
+		 * jp = factory.createParser(src);
 		 */
 
-		System.out.printf("Parsinging file %s:\n", fname);
+		System.out.printf("Piping file %s:\n", fname);
 
 		while (jp.hasNext()) 
 		{
@@ -76,7 +81,7 @@ public class PipeParser
 		System.out.println("JSON parser done.");
 		
 		//close resources
-		fis.close();
+		snk.close();
 		jp.close();
 	}
 }

@@ -1,4 +1,4 @@
-package net.waltonstine.minjavajson;
+package net.waltonstine.json.minparser;
 
 import java.io.FileInputStream;
 import java.io.IOException;

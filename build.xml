@@ -15,8 +15,12 @@
     <delete dir="bin"/>
 </target>
 
-<target name="run" depends="compile">
-    <java classpath="bin:jars/javax.json-1.0.4.jar" classname="net.waltonstine.minjavajson.Main">
+<target name="run" depends="run-min">
+  <echo message="done"/>
+</target>
+
+<target name="run-min" depends="compile">
+    <java classpath="bin:jars/javax.json-1.0.4.jar" classname="net.waltonstine.json.minparser.Main">
         <arg value="sample.json"/>
     </java>
 </target>

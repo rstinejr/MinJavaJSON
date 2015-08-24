@@ -35,9 +35,12 @@ public class PipeWriter implements Runnable
                 if (cnt == -1)
                 {
                     System.out.println("EOF on json file.");
+                    pstrm.flush();                    
                     fstrm.close();
                     break;
                 }
+
+                pstrm.write(readBuffer, 0, cnt); 
             }
         }
         catch (IOException ioex)

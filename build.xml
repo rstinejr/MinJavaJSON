@@ -6,13 +6,22 @@
 
 <target name="compile" depends="init">
     <javac srcdir="src" 
-		   classpath="./jars/javax.json-1.0.4.jar"
+		   classpath="jars/javax.json-1.0.4.jar"
   	       destdir="bin" 
 	       includeantruntime="false" debug="true"/>
 </target>
 
+<target name="compile-tests" depends="compile">
+  <mkdir dir="tstbin"/>
+  <javac srcdir="test"
+         classpath="bin:tstJars/junit-4.12.jar:tstJars/hamcrest-core-1.3.jar"
+		 destdir="tstbin"
+		 includeantruntime="false" debug="true"/>
+</target>
+
 <target name="clean">
     <delete dir="bin"/>
+    <delete dir="tstbin"/>
 </target>
 
 <target name="run" depends="run-min">

@@ -36,7 +36,17 @@ public class TestPipeWriter
         final int BUFF_LN = 10240;
 
         byte[] iBuffer = new byte[BUFF_LN];
-        int cnt = istrm.read(iBuffer, 0, BUFF_LN);
+        int cnt = 0;
+        for ( ; ; )
+        {
+            int readCnt = istrm.read(iBuffer, 0, BUFF_LN);
+            if (readCnt == -1)
+            {
+                break;
+            }
+            cnt += readCnt;
+        }
+
         System.out.printf("Read %d bytes from pipe.\n", cnt);
 
         ostrm.close();

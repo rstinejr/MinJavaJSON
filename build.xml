@@ -46,13 +46,21 @@
     <delete dir="tstbin"/>
 </target>
 
-<target name="run-piped" depends="compile">
+<target name="run-piped" depends="compile-javax">
     <java classpath="bin:jars/javax.json-1.0.4.jar" classname="net.waltonstine.json.javax.piped.PipeParser">
         <arg value="sample.json"/>
     </java>
 </target>
 
-<target name="run-min" depends="compile">
+<target name="run-jackson-min" depends="compile-jackson">
+    <java 
+     classpath="bin:jackson-jars/jackson-annotations-2.6.1.jar:jackson-jars/jackson-core-2.6.1.jar:jackson-jars/jackson-databind-2.6.1.jar"
+     classname="net.waltonstine.json.jackson.minparser.Main">
+        <arg value="sample.json"/>
+    </java>
+</target>
+
+<target name="run-min" depends="compile-javax">
     <java classpath="bin:jars/javax.json-1.0.4.jar" classname="net.waltonstine.json.javax.minparser.Main">
         <arg value="sample.json"/>
     </java>

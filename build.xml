@@ -5,7 +5,7 @@
 </target>
 
 <target name="compile" depends="init">
-    <javac srcdir="src" 
+    <javac srcdir="src/javax" 
 		   classpath="jars/javax.json-1.0.4.jar"
   	       destdir="bin" 
 	       includeantruntime="false" debug="true"/>

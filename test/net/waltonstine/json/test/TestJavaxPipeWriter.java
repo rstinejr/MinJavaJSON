@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
-import net.waltonstine.json.piped.PipeWriter;
+import net.waltonstine.json.javax.piped.PipeWriter;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-public class TestPipeWriter
+public class TestJavaxPipeWriter
 {
     @Test
     public void execCtor()

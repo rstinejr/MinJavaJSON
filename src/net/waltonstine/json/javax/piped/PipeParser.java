@@ -1,18 +1,22 @@
-package net.waltonstine.json.minparser;
+package net.waltonstine.json.javax.piped;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 
 import javax.json.Json;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
 
-public class Main
+import net.waltonstine.json.javax.piped.PipeWriter;
+
+public class PipeParser
 {
 
-    public static void main(String[] args) throws IOException 
+    public static void main(String[] args) throws IOException,InterruptedException
     {
+        System.out.printf("Start PipeParser test.\n");
         if (args.length != 1)
         {
             System.err.printf("Need exactly one argument, the name of a JSON source file.\n");
@@ -20,21 +24,23 @@ public class Main
         }
         String fname = args[0];
         
-        InputStream fis = new FileInputStream(fname);
+        PipeWriter pw         = new PipeWriter();
+        PipedOutputStream src = pw.openStream(fname);
 
-        JsonParser jsonParser = Json.createParser(fis);
+        PipedInputStream  snk = new PipedInputStream(src);
 
-        /**
-         * We can create JsonParser from JsonParserFactory also with below code
-         * JsonParserFactory factory = Json.createParserFactory(null);
-         * jsonParser = factory.createParser(fis);
-         */
+        System.out.printf("Hooked up output and input streams, source file is '%s'\n", fname);
+        System.out.flush();
+        Thread t = new Thread(pw);
+        t.start();
 
-        System.out.printf("Parsinging file %s:\n", fname);
+        JsonParser jp = Json.createParser(snk);
 
-        while (jsonParser.hasNext()) 
+        System.out.printf("Get items from parser...\n"); 
+
+        while (jp.hasNext()) 
         {
-            Event event = jsonParser.next();
+            Event event = jp.next();
             System.out.printf("Event: %s\n", event.toString());
             switch (event) 
             {
@@ -51,13 +57,13 @@ public class Main
                 System.out.printf("End Array.\n");
                 break;
             case KEY_NAME:
-                System.out.printf("Key name '%s'\n", jsonParser.getString());
+                System.out.printf("Key name '%s'\n", jp.getString());
                 break;
             case VALUE_STRING:
-                System.out.printf("String value: '%s'\n", jsonParser.getString());
+                System.out.printf("String value: '%s'\n", jp.getString());
                 break;
             case VALUE_NUMBER:
-                System.out.printf("Number value: %d\n", jsonParser.getLong());
+                System.out.printf("Number value: %d\n", jp.getLong());
                 break;
             case VALUE_FALSE:
                 System.out.printf("Boolean value FALSE\n");
@@ -76,7 +82,8 @@ public class Main
         System.out.println("JSON parser done.");
         
         //close resources
-        fis.close();
-        jsonParser.close();
+        t.join();
+        snk.close();
+        jp.close();
     }
 }

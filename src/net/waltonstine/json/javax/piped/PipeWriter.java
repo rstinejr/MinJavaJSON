@@ -1,4 +1,4 @@
-package net.waltonstine.json.piped;
+package net.waltonstine.json.javax.piped;
 
 import java.io.FileInputStream;
 import java.io.InputStream;

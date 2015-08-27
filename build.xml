@@ -4,16 +4,27 @@
     <mkdir dir="bin"/>
 </target>
 
-<target name="compile" depends="init">
+<target name="compile-jackson" depends="init">
+    <javac srcdir="src/jackson" 
+		   classpath="jars/javax.json-1.0.4.jar"
+  	       destdir="bin" 
+	       includeantruntime="false" debug="true"/>
+</target>
+
+<target name="compile-javax" depends="init">
     <javac srcdir="src/javax" 
 		   classpath="jars/javax.json-1.0.4.jar"
   	       destdir="bin" 
 	       includeantruntime="false" debug="true"/>
 </target>
 
+<target name="compile" depends="compile-jackson,compile-javax">
+    <echo message="Done"/>
+</target>
+
 <target name="compile-tests" depends="compile">
-  <mkdir dir="tstbin"/>
-  <javac srcdir="test"
+    <mkdir dir="tstbin"/>
+    <javac srcdir="test"
          classpath="bin:tstJars/junit-4.12.jar:tstJars/hamcrest-core-1.3.jar"
 		 destdir="tstbin"
 		 includeantruntime="false" debug="true"/>

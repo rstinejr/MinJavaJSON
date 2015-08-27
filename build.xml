@@ -6,7 +6,7 @@
 
 <target name="compile-jackson" depends="init">
     <javac srcdir="src/jackson" 
-		   classpath="jars/javax.json-1.0.4.jar"
+		   classpath="jackson-jars/jackson-annotations-2.6.1.jar:jackson-jars/jackson-core-2.6.1.jar:jackson-jars/jackson-databind-2.6.1.jar"
   	       destdir="bin" 
 	       includeantruntime="false" debug="true"/>
 </target>

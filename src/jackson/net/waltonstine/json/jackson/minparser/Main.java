@@ -1,6 +1,6 @@
 package net.waltonstine.json.jackson.minparser;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonFactory;
@@ -11,7 +11,7 @@ import com.fasterxml.jackson.core.JsonToken;
 public class Main
 {
 
-    public static void main(String[] args) throws IOException, JsonParserException
+    public static void main(String[] args) throws IOException, JsonParseException
     {
         if (args.length != 1)
         {
@@ -27,7 +27,7 @@ public class Main
         for ( ; ; )
         {
             JsonToken toke = jsonParser.nextToken();
-            System.out.println("Token: " toke.toString());
+            System.out.printf("Token: %s\n", toke.toString());
             if (toke == JsonToken.END_OBJECT)
             {
                 break;
